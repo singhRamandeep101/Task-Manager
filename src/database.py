@@ -33,7 +33,22 @@ class TaskDatabase:
         except sqlite3.Error as e:
             print(f"Error adding task: {e}")
             return False
+        
+    def view_task(self, category):
+        try:
+            with sqlite3.connect(self.db_name) as conn:
+                cursor = conn.cursor()
+                if category:
+                    cursor.execute("SELECT * FROM tasks WHERE category = ?", (category,))
+                else:
+                    cursor.execute("SELECT * FROM tasks")
+                return cursor.fetchall()
+        except sqlite3.Error as e:
+            print(f"Error viewing task: {e}")
+            return []
 
 if __name__ == "__main__":
     db = TaskDatabase()
     db.add_task("Test Task", "This is a test", "2025-05-01", "Work")
+    tasks = db.view_task("Work")
+    print(tasks)
