@@ -76,6 +76,17 @@ class TaskDatabase:
             print(f"Error updating task: {e}")
             return False
         
+    def delete_task(self, task_id):
+        try:
+            with sqlite3.connect(self.db_name) as conn:
+                cursor = conn.cursor()
+                cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+                conn.commit()
+                return cursor.rowcount > 0
+        except sqlite3.Error as e:
+            print(f"Error deleting task: {e}")
+            return False
+                
 if __name__ == "__main__":
     db = TaskDatabase()
     # Add a task
@@ -88,6 +99,13 @@ if __name__ == "__main__":
         print("Task updated successfully")
     else:
         print("Failed to update task")
+    # Delete the task (id=1)
+    if db.delete_task(1):
+        print("Task deleted successfully")
+    else:
+        print("Failed to delete task")
+    tasks = db.view_tasks()
+    print("All tasks:", tasks)
     # View tasks to confirm
     tasks = db.view_tasks("Work")
     print("Work tasks:", tasks)
