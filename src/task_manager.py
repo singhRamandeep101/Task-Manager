@@ -2,9 +2,15 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from database import TaskDatabase
 from datetime import datetime
+import os
 
 class TaskManager:
-    def __init__(self, root, db_name="C:\Users\32gur\Task-Manager\data\task_manager.db"):
+    def __init__(self, root, db_name=r"C:\Users\32gur\Task-Manager\data\task_manager.db"):
+        if not os.path.exists(db_name):
+            messagebox.showerror("Error", f"Database file not found: {db_name}")
+            root.quit()  # Exit the application if the database is not found
+            return
+        
         self.db = TaskDatabase(db_name)
         self.root = root
         self.root.title("Task Manager")
