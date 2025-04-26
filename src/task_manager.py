@@ -4,11 +4,11 @@ from database import TaskDatabase
 from datetime import datetime
 
 class TaskManager:
-    def __init__(self, root, db_name="data/task_manager.db"):
+    def __init__(self, root, db_name="C:\Users\32gur\Task-Manager\data\task_manager.db"):
         self.db = TaskDatabase(db_name)
         self.root = root
         self.root.title("Task Manager")
-        self.root.geometry("800x600")  # Window size
+        self.root.geometry("600x400")  # Window size
 
         # Create GUI elements
         self.create_widgets()
